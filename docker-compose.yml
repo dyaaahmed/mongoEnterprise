@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  mongo0:
+    image: dyaaeldinahmed/mongo-enterprise:4.2
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/data/file.key", "--replSet", "rs", "--dbpath", "/data", "--journal", "--bind_ip_all" ]
+    restart: always
+    volumes:
+    - "./scripts/:/data/"
+
+  mongo1:
+    image: dyaaeldinahmed/mongo-enterprise:4.2
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/data/file.key", "--replSet", "rs", "--journal", "--bind_ip_all" ]
+    restart: always
+    volumes:
+    - "./scripts/file.key:/data/file.key"
+
+  mongo2:
+    image: dyaaeldinahmed/mongo-enterprise:4.2
+    command: bash -c "/usr/bin/mongod --keyFile /data/file.key --replSet rs --journal --bind_ip_all" 
+    restart: always
+    volumes:
+    - "./scripts/file.key:/data/file.key"
